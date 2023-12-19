@@ -4,8 +4,8 @@ from instagrapi import Client
 from instagrapi.types import Media
 
 HASHTAGS = ["instacool"]
-IG_USERNAME = ""
-IG_PASSWORD = ""
+IG_USERNAME = "flowzylab"
+IG_PASSWORD = "No@h123100"
 IG_CREDENTIAL_PATH = "credential.json"
 
 
@@ -20,46 +20,21 @@ def get_logger(name, **kwargs):
 
 def filter_medias(
     medias: List[Media],
-    like_count_min=None,
+    video_view_count_min=1000000,
     like_count_max=None,
-    comment_count_min=None,
-    comment_count_max=None,
-    days_ago_max=None,
+    days_ago_max=30,
 ):
     from datetime import datetime, timedelta
 
     medias = list(
         filter(
             lambda x: True
-            if like_count_min is None
-            else x.like_count >= like_count_min,
+            if video_view_count_min is None
+            else x.like_count >= video_view_count_min,
             medias,
         )
     )
-    medias = list(
-        filter(
-            lambda x: True
-            if like_count_max is None
-            else x.like_count <= like_count_max,
-            medias,
-        )
-    )
-    medias = list(
-        filter(
-            lambda x: True
-            if comment_count_min is None
-            else x.comment_count >= comment_count_min,
-            medias,
-        )
-    )
-    medias = list(
-        filter(
-            lambda x: True
-            if comment_count_max is None
-            else x.comment_count <= comment_count_max,
-            medias,
-        )
-    )
+
     if days_ago_max is not None:
         days_back = datetime.now() - timedelta(days=days_ago_max)
         medias = list(
@@ -83,10 +58,12 @@ def get_medias(
     for hashtag in hashtags:
         if ht_type == "top":
             ht_medias.extend(
-                cl.hashtag_medias_top(name=hashtag, amount=amount if amount <= 9 else 9)
+                cl.hashtag_medias_top(
+                    name=hashtag, amount=amount if amount <= 9 else 9)
             )
         elif ht_type == "recent":
-            ht_medias.extend(cl.hashtag_medias_recent(name=hashtag, amount=amount))
+            ht_medias.extend(cl.hashtag_medias_recent(
+                name=hashtag, amount=amount))
     return list(dict([(media.pk, media) for media in ht_medias]).values())
 
 
