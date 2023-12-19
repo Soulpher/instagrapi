@@ -3,7 +3,7 @@ from typing import List
 from instagrapi import Client
 from instagrapi.types import Media
 
-HASHTAGS = ["instacool"]
+HASHTAGS = ["contentmarketing"]
 IG_USERNAME = "flowzylab"
 IG_PASSWORD = "No@h123100"
 IG_CREDENTIAL_PATH = "credential.json"
